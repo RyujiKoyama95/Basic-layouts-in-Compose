@@ -154,6 +154,7 @@ fun FavoriteCollectionCard(
     }
 }
 
+// Todo: 全体のpaddingが効いていない
 // Step: Align your body row - Arrangements
 @Composable
 fun AlignYourBodyRow(
