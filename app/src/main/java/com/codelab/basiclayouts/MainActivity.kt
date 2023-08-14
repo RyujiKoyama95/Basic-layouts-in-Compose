@@ -169,7 +169,8 @@ fun AlignYourBodyRow(
             }
         },
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = modifier
     )
 }
 
