@@ -207,6 +207,22 @@ fun FavoriteCollectionsGrid(
     )
 }
 
+@Composable
+fun FavoriteCollectionsSection(
+    modifier: Modifier = Modifier,
+    @StringRes text: Int
+) {
+    Column {
+        Text(
+            text = stringResource(id = text),
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
+        )
+        FavoriteCollectionsGrid()
+    }
+}
+
 // Step: Home section - Slot APIs
 @Composable
 fun HomeSection(
@@ -222,8 +238,8 @@ fun HomeSection(
             style = MaterialTheme.typography.h2,
             modifier = Modifier
                 .paddingFromBaseline(
-                top = 40.dp,
-                bottom = 8.dp
+                    top = 40.dp,
+                    bottom = 8.dp
                 )
                 .padding(horizontal = 16.dp)
         )
@@ -341,4 +357,12 @@ fun BottomNavigationPreview() {
 @Composable
 fun MySoothePreview() {
     MySootheApp()
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
+@Composable
+fun FavoriteCollectionsSectionPreview() {
+    MySootheTheme {
+        FavoriteCollectionsSection(text = R.string.favorite_collections)
+    }
 }
