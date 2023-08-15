@@ -160,19 +160,23 @@ fun FavoriteCollectionCard(
 fun AlignYourBodyRow(
     modifier: Modifier = Modifier
 ) {
-    LazyRow(
-        content = {
-            this.items(alignYourBodyData) { item ->
-                AlignYourBodyElement(
-                    drawable = item.drawable,
-                    text = item.text
-                )
-            }
-        },
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier
-    )
+    Surface(
+        modifier = modifier.padding(16.dp)
+    ) {
+        LazyRow(
+            content = {
+                this.items(alignYourBodyData) { item ->
+                    AlignYourBodyElement(
+                        drawable = item.drawable,
+                        text = item.text
+                    )
+                }
+            },
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            modifier = modifier
+        )
+    }
 }
 
 // Step: Favorite collections grid - LazyGrid
