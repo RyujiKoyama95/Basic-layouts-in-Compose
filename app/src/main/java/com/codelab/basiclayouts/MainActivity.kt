@@ -22,6 +22,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -46,6 +47,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -177,7 +179,7 @@ fun AlignYourBodyRow(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(horizontal = 16.dp),
     ) {
         LazyRow(
             content = {
@@ -191,7 +193,7 @@ fun AlignYourBodyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             // これの必要性がわからない
 //            contentPadding = PaddingValues(horizontal = 16.dp),
-            modifier = modifier
+            modifier = modifier.background(color = MaterialTheme.colors.background),
         )
     }
 }
@@ -304,7 +306,15 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
 // Step: MySoothe App - Scaffold
 @Composable
 fun MySootheApp() {
-    // Implement composable here
+    MySootheTheme {
+        Scaffold(
+            bottomBar = { SootheBottomNavigation() }
+        ) {padding ->
+            HomeScreen(
+                modifier = Modifier.padding(padding)
+            )
+        }
+    }
 }
 
 private val alignYourBodyData = listOf(
