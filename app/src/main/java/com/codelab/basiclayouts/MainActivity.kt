@@ -63,6 +63,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codelab.basiclayouts.ui.theme.MySootheTheme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,7 +177,8 @@ fun AlignYourBodyRow(
                 }
             },
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp),
+            // これの必要性がわからない
+//            contentPadding = PaddingValues(horizontal = 16.dp),
             modifier = modifier
         )
     }
@@ -208,9 +210,25 @@ fun FavoriteCollectionsGrid(
 // Step: Home section - Slot APIs
 @Composable
 fun HomeSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+    @StringRes text: Int
 ) {
-    // Implement composable here
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(id = text).uppercase(Locale.getDefault()),
+            style = MaterialTheme.typography.h2,
+            modifier = Modifier
+                .paddingFromBaseline(
+                top = 40.dp,
+                bottom = 8.dp
+                )
+                .padding(horizontal = 16.dp)
+        )
+        content()
+    }
 }
 
 // Step: Home screen - Scrolling
@@ -299,7 +317,12 @@ fun AlignYourBodyRowPreview() {
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
 @Composable
 fun HomeSectionPreview() {
-    MySootheTheme { HomeSection() }
+    MySootheTheme {
+        HomeSection(
+        content = { AlignYourBodyRow() },
+        text = R.string.align_your_body
+        )
+    }
 }
 
 @Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
