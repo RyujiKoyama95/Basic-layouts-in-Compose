@@ -39,7 +39,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -77,25 +79,31 @@ class MainActivity : ComponentActivity() {
 fun SearchBar(
     modifier: Modifier = Modifier
 ) {
-    TextField(
-        value = "",
-        onValueChange = {},
-        placeholder = {
-            Text(stringResource(id = R.string.placeholder_search))
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "search icon"
-            )
-        },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = MaterialTheme.colors.surface
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-    )
+    // codelabではSurface()がないが、これをいれないと、
+    // SearchBar()の外側にpaddingがつかない
+    Surface(
+        modifier = modifier
+    ) {
+        TextField(
+            value = "",
+            onValueChange = {},
+            placeholder = {
+                Text(stringResource(id = R.string.placeholder_search))
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "search icon"
+                )
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = MaterialTheme.colors.surface
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 56.dp)
+        )
+    }
 }
 
 // Step: Align your body - Alignment
@@ -207,22 +215,6 @@ fun FavoriteCollectionsGrid(
     )
 }
 
-@Composable
-fun FavoriteCollectionsSection(
-    modifier: Modifier = Modifier,
-    @StringRes text: Int
-) {
-    Column {
-        Text(
-            text = stringResource(id = text),
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
-        )
-        FavoriteCollectionsGrid()
-    }
-}
-
 // Step: Home section - Slot APIs
 @Composable
 fun HomeSection(
@@ -250,7 +242,23 @@ fun HomeSection(
 // Step: Home screen - Scrolling
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
-    // Implement composable here
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(vertical = 16.dp)
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        SearchBar(modifier = Modifier.padding(horizontal = 16.dp))
+        HomeSection(
+            content = { AlignYourBodyRow() },
+            text = R.string.align_your_body
+        )
+        HomeSection(
+            content = { FavoriteCollectionsGrid() },
+            text = R.string.favorite_collections
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+    }
 }
 
 // Step: Bottom navigation - Material
@@ -357,12 +365,4 @@ fun BottomNavigationPreview() {
 @Composable
 fun MySoothePreview() {
     MySootheApp()
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFF0EAE2)
-@Composable
-fun FavoriteCollectionsSectionPreview() {
-    MySootheTheme {
-        FavoriteCollectionsSection(text = R.string.favorite_collections)
-    }
 }
